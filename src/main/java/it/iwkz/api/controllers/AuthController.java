@@ -53,7 +53,7 @@ public class AuthController {
         User user = new User();
         user.setFullName(singUpRequest.getFullName());
         user.setUsername(singUpRequest.getUsername());
-        user.setPassword(singUpRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(singUpRequest.getPassword()));
 
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("User Role not set."));
@@ -67,7 +67,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword())
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
