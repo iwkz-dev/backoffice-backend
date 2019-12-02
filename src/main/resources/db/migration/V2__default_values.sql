@@ -1,7 +1,13 @@
-INSERT INTO roles(name) VALUES('ROLE_USER');
 INSERT INTO roles(name) VALUES('ROLE_ADMIN');
+INSERT INTO roles(name) VALUES('ROLE_USER');
 
+/* admin1WK2.de! */
 INSERT INTO users(full_name, username, password) VALUES('Admin IWKZ', 'admin', '$2a$10$cq/cWw.fmpft1jdHhZA8ceEUoKi6YWh1U32aE54bhKspAA6MreQiG');
+INSERT INTO user_roles(user_id, role_id) VALUES (1, 1);
+INSERT INTO user_roles(user_id, role_id) VALUES (1, 2);
+/* 1WK2.de!!! */
+INSERT INTO users(full_name, username, password) VALUES('User IWKZ.ev', 'iwkz', '$2a$10$CBdf89XK1qRc4RfzYI/lPeXngYOLGA0l3eyO02hSt9l99X2ywfTei');
+INSERT INTO user_roles(user_id, role_id) VALUES (2, 2);
 
 INSERT INTO income_types(name) VALUES ('sedekah');
 INSERT INTO income_types(name) VALUES ('kotak_jumat');
