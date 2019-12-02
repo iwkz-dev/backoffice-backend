@@ -1,4 +1,4 @@
-package it.iwkz.api.payloads;
+package it.iwkz.api.payloads.auth;
 
 import lombok.Data;
 

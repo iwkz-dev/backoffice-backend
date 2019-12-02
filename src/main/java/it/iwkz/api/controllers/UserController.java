@@ -1,7 +1,7 @@
 package it.iwkz.api.controllers;
 
 import it.iwkz.api.models.User;
-import it.iwkz.api.payloads.UserResponse;
+import it.iwkz.api.payloads.auth.UserResponse;
 import it.iwkz.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
