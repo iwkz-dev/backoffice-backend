@@ -1,6 +1,6 @@
 package it.iwkz.api.controllers;
 
-import it.iwkz.api.exceptions.BadRequestException;
+import it.iwkz.api.exceptions.ResourceNotFoundException;
 import it.iwkz.api.models.Income;
 import it.iwkz.api.models.IncomeType;
 import it.iwkz.api.payloads.ApiResponse;
@@ -24,7 +24,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/income")
 public class IncomeController {
-
     @Autowired
     private IncomeTypeRepository incomeTypeRepository;
 
@@ -41,11 +40,11 @@ public class IncomeController {
     @GetMapping("/types/{id}")
     public IncomeType getIncomeType(@PathVariable long id) {
         return incomeTypeRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("no incomeType found with id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("IncomeType", "getIncomeType", id));
     }
 
     @GetMapping("/{month}/{year}")
-    public PagedResponse getFinanceCurrentMonth(@PathVariable int month, @PathVariable int year,
+    public PagedResponse getIncomesByMonthYear(@PathVariable int month, @PathVariable int year,
                                                 @RequestParam(value ="page", defaultValue = AppConst.DEFAULT_PAGE_NUMBER) int page,
                                                 @RequestParam(value = "pageSize", defaultValue = AppConst.DEFAULT_PAGE_SIZE) int pageSize ) {
 

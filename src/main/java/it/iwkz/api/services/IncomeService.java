@@ -1,6 +1,5 @@
 package it.iwkz.api.services;
 
-import it.iwkz.api.exceptions.BadRequestException;
 import it.iwkz.api.exceptions.ResourceNotFoundException;
 import it.iwkz.api.models.IncomeType;
 import it.iwkz.api.models.Income;
@@ -22,7 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class IncomeService {
+public class IncomeService extends AbstractService{
     @Autowired
     private IncomesRepository incomesRepository;
 
@@ -89,17 +88,5 @@ public class IncomeService {
         response.setTotalIncomeByTypes(incomeByTypes);
 
         return response;
-    }
-
-    private void isValidPage(int page) {
-        if (page < 0) {
-            throw new BadRequestException("invalid page number!");
-        }
-    }
-
-    private void isValidDate(int month) {
-        if (month < 0) {
-            throw new BadRequestException("invalid month number!");
-        }
     }
 }

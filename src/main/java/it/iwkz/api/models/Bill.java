@@ -11,12 +11,12 @@ import java.time.Instant;
 
 @Data
 @Entity
-@Table(name = "incomes")
+@Table(name = "bills")
 @JsonIgnoreProperties(
         value = {"createdAt", "updatedAt"},
         allowGetters = true
 )
-public class Income {
+public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,6 +39,6 @@ public class Income {
     private Instant updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "income_type_id", nullable = false)
-    private IncomeType incomeType;
+    @JoinColumn(name = "bill_type_id", nullable = false)
+    private BillType billType;
 }
