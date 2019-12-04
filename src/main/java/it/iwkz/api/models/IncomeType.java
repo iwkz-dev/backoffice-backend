@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "income_types")
 public class IncomeType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

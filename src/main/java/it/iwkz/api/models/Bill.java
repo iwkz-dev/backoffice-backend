@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "bills")
 public class Bill extends AuditDate{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
