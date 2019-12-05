@@ -1,7 +1,10 @@
 package it.iwkz.api.configs.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.iwkz.api.payloads.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          HttpServletResponse httpServletResponse,
                          AuthenticationException e) throws IOException, ServletException {
         logger.error("unauthorized error. Message - {}", e.getMessage());
-        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+
+        final ErrorResponse apiError = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getLocalizedMessage(), e.getMessage());
+
+        httpServletResponse.setContentType("application/json");
+        httpServletResponse.getOutputStream()
+                .println(new ObjectMapper().writeValueAsString(apiError));
     }
 }

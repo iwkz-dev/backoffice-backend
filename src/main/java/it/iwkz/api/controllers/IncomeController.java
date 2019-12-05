@@ -3,8 +3,8 @@ package it.iwkz.api.controllers;
 import it.iwkz.api.exceptions.ResourceNotFoundException;
 import it.iwkz.api.models.Income;
 import it.iwkz.api.models.IncomeType;
-import it.iwkz.api.payloads.ApiResponse;
-import it.iwkz.api.payloads.PagedResponse;
+import it.iwkz.api.payloads.EntityResponse;
+import it.iwkz.api.payloads.ListResponse;
 import it.iwkz.api.payloads.income.AddIncomeRequest;
 import it.iwkz.api.payloads.income.TotalIncomeResponse;
 import it.iwkz.api.repositories.IncomeTypeRepository;
@@ -13,13 +13,10 @@ import it.iwkz.api.utils.AppConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/income")
@@ -33,39 +30,34 @@ public class IncomeController {
     private static final Logger logger = LoggerFactory.getLogger(IncomeController.class);
 
     @GetMapping("/types")
-    public List<IncomeType> getIncomeTypes() {
-        return incomeTypeRepository.findAll();
+    public ListResponse<IncomeType> getIncomeTypes() {
+        return new ListResponse<>(incomeTypeRepository.findAll());
     }
 
     @GetMapping("/types/{id}")
-    public IncomeType getIncomeType(@PathVariable long id) {
-        return incomeTypeRepository.findById(id)
+    public EntityResponse<IncomeType> getIncomeType(@PathVariable long id) {
+        IncomeType incomeType = incomeTypeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("IncomeType", "getIncomeType", id));
+
+        return new EntityResponse<>(incomeType);
     }
 
     @GetMapping("/{month}/{year}")
-    public PagedResponse getIncomesByMonthYear(@PathVariable int month, @PathVariable int year,
-                                                @RequestParam(value ="page", defaultValue = AppConst.DEFAULT_PAGE_NUMBER) int page,
-                                                @RequestParam(value = "pageSize", defaultValue = AppConst.DEFAULT_PAGE_SIZE) int pageSize ) {
+    public ListResponse<Income> getIncomesByMonthYear(@PathVariable int month, @PathVariable int year,
+                                                      @RequestParam(value ="page", defaultValue = AppConst.DEFAULT_PAGE_NUMBER) int page,
+                                                      @RequestParam(value = "pageSize", defaultValue = AppConst.DEFAULT_PAGE_SIZE) int pageSize ) {
 
         return incomeService.getAllIncomesByMonthYear(month, year, page, pageSize);
     }
 
     @GetMapping("/total/{month}/{year}")
-    public TotalIncomeResponse getTotalIncomeByMonthYear(@PathVariable int month, @PathVariable int year) {
-        return incomeService.getTotalIncomes(month, year);
+    public EntityResponse<TotalIncomeResponse> getTotalIncomeByMonthYear(@PathVariable int month, @PathVariable int year) {
+        return new EntityResponse<>(incomeService.getTotalIncomes(month, year));
     }
 
     @PostMapping
-    public ResponseEntity addIncome(@Valid @RequestBody AddIncomeRequest incomeRequest) {
-        Income income = incomeService.addIncome(incomeRequest);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest().path("/{incomeId}")
-                .buildAndExpand(income.getId()).toUri();
-
-        return ResponseEntity
-                .created(location)
-                .body(new ApiResponse(true, "income added"));
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addIncome(@Valid @RequestBody AddIncomeRequest incomeRequest) {
+        incomeService.addIncome(incomeRequest);
     }
 }

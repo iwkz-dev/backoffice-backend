@@ -1,16 +1,16 @@
 package it.iwkz.api.controllers;
 
+import it.iwkz.api.exceptions.BadRequestException;
 import it.iwkz.api.models.Role;
 import it.iwkz.api.models.RoleName;
 import it.iwkz.api.models.User;
-import it.iwkz.api.payloads.ApiResponse;
+import it.iwkz.api.payloads.EntityResponse;
 import it.iwkz.api.payloads.auth.SingUpRequest;
 import it.iwkz.api.payloads.auth.UserResponse;
 import it.iwkz.api.repositories.RoleRepository;
 import it.iwkz.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,10 +34,11 @@ public class UserController {
     private RoleRepository roleRepository;
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity registerUser(@Valid @RequestBody SingUpRequest singUpRequest) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerUser(@Valid @RequestBody SingUpRequest singUpRequest) {
         if (userRepository.existsByUsername(singUpRequest.getUsername())) {
-            return new ResponseEntity<>(new ApiResponse(false, "username already exist"), HttpStatus.BAD_REQUEST);
+            throw new BadRequestException("username is already exist");
         }
 
         User user = new User();
@@ -50,12 +51,10 @@ public class UserController {
         user.setRoles(Collections.singleton(userRole));
 
         userRepository.save(user);
-
-        return ResponseEntity.ok(new ApiResponse(true, "user added"));
     }
 
     @GetMapping
-    public UserResponse getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
+    public EntityResponse<UserResponse> getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
         User user =  userRepository.findByUsername(userDetails.getUsername()).orElse(null);
 
         UserResponse userResponse = new UserResponse();
@@ -63,6 +62,6 @@ public class UserController {
         userResponse.setUsername(user.getUsername());
         userResponse.setRoles(user.getRoles().toString());
 
-        return userResponse;
+        return new EntityResponse<>(userResponse);
     }
 }

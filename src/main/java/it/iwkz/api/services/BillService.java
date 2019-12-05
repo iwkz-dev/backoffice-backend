@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 
@@ -29,6 +30,7 @@ public class BillService extends AbstractService{
 
     private static final Logger logger = LoggerFactory.getLogger(BillsRepository.class);
 
+    @Transactional
     public Bill addBill(AddBillRequest billRequest) {
         BillType billType = billTypeRepository.findById(billRequest.getBillTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("BillType", "addBill", billRequest.getBillTypeId()));

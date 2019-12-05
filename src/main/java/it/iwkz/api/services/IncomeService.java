@@ -3,7 +3,7 @@ package it.iwkz.api.services;
 import it.iwkz.api.exceptions.ResourceNotFoundException;
 import it.iwkz.api.models.IncomeType;
 import it.iwkz.api.models.Income;
-import it.iwkz.api.payloads.PagedResponse;
+import it.iwkz.api.payloads.ListResponse;
 import it.iwkz.api.payloads.income.AddIncomeRequest;
 import it.iwkz.api.payloads.income.TotalIncomeResponse;
 import it.iwkz.api.repositories.IncomeTypeRepository;
@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -30,6 +31,7 @@ public class IncomeService extends AbstractService{
 
     private static final Logger logger = LoggerFactory.getLogger(IncomeService.class);
 
+    @Transactional
     public Income addIncome(AddIncomeRequest incomeRequest) {
         IncomeType incomeType = incomeTypeRepository.findById(incomeRequest.getIncomeTypeId())
                 .orElseThrow(() -> new ResourceNotFoundException("IncomeType", "addIncome", incomeRequest.getIncomeTypeId()));
@@ -44,20 +46,20 @@ public class IncomeService extends AbstractService{
         return incomesRepository.save(income);
     }
 
-    public PagedResponse<Income> getAllIncomesByMonthYear(int month, int year, int page, int pageSize) {
+    public ListResponse<Income> getAllIncomesByMonthYear(int month, int year, int page, int pageSize) {
         isValidPage(page);
         isValidDate(month);
 
         Pageable pageable = PageRequest.of(page, pageSize, Sort.Direction.DESC, "createdAt");
         Page<Income> incomes = incomesRepository.findByMonthYear(month, year, pageable);
 
-        PagedResponse<Income> pagedResponse = new PagedResponse<>();
-        pagedResponse.setData(incomes.getContent());
-        pagedResponse.setPage(incomes.getNumber());
-        pagedResponse.setPageSize(incomes.getSize());
-        pagedResponse.setTotalData(incomes.getTotalElements());
+        ListResponse<Income> listResponse = new ListResponse<>();
+        listResponse.setData(incomes.getContent());
+        listResponse.setPage(incomes.getNumber());
+        listResponse.setPageSize(incomes.getSize());
+        listResponse.setCount(incomes.getTotalElements());
 
-        return pagedResponse;
+        return listResponse;
     }
 
     public TotalIncomeResponse getTotalIncomes(int month, int year) {

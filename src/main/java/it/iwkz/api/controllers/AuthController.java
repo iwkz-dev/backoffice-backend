@@ -1,11 +1,11 @@
 package it.iwkz.api.controllers;
 
 import it.iwkz.api.configs.jwt.JwtTokenProvider;
+import it.iwkz.api.payloads.EntityResponse;
 import it.iwkz.api.payloads.auth.JwtAuthenticationResponse;
 import it.iwkz.api.payloads.auth.LoginRequest;
 import it.iwkz.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,7 +30,7 @@ public class AuthController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
-    public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public EntityResponse<JwtAuthenticationResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
@@ -44,6 +44,6 @@ public class AuthController {
         JwtAuthenticationResponse response = new JwtAuthenticationResponse();
         response.setToken(jwt);
 
-        return ResponseEntity.ok(response);
+        return new EntityResponse<>(response);
     }
 }
