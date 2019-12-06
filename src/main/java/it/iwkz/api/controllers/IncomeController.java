@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Calendar;
 
 @RestController
 @RequestMapping("/api/income")
@@ -42,16 +43,27 @@ public class IncomeController {
         return new EntityResponse<>(incomeType);
     }
 
-    @GetMapping("/{month}/{year}")
-    public ListResponse<Income> getIncomesByMonthYear(@PathVariable int month, @PathVariable int year,
-                                                      @RequestParam(value ="page", defaultValue = AppConst.DEFAULT_PAGE_NUMBER) int page,
-                                                      @RequestParam(value = "pageSize", defaultValue = AppConst.DEFAULT_PAGE_SIZE) int pageSize ) {
+    @GetMapping
+    public ListResponse<Income> getIncomesByMonthYear(
+            @RequestParam(value = "month", required = false, defaultValue = "0") int month,
+            @RequestParam(value = "year", required = false, defaultValue = "0") int year,
+            @RequestParam(value = "page", defaultValue = AppConst.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "pageSize", defaultValue = AppConst.DEFAULT_PAGE_SIZE) int pageSize
+    ) {
+        if (month == 0) month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        if (year == 0) year = Calendar.getInstance().get(Calendar.YEAR);
 
         return incomeService.getAllIncomesByMonthYear(month, year, page, pageSize);
     }
 
-    @GetMapping("/total/{month}/{year}")
-    public EntityResponse<TotalIncomeResponse> getTotalIncomeByMonthYear(@PathVariable int month, @PathVariable int year) {
+    @GetMapping("/total")
+    public EntityResponse<TotalIncomeResponse> getTotalIncomeByMonthYear(
+            @RequestParam(value = "month", required = false, defaultValue = "0") int month,
+            @RequestParam(value = "year", required = false, defaultValue = "0") int year
+    ) {
+        if (month == 0) month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        if (year == 0) year = Calendar.getInstance().get(Calendar.YEAR);
+
         return new EntityResponse<>(incomeService.getTotalIncomes(month, year));
     }
 
