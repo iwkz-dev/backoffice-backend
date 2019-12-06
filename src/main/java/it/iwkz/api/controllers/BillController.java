@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Calendar;
 
 @RestController
 @RequestMapping("/api/bill")
@@ -35,8 +36,14 @@ public class BillController {
         return new EntityResponse<>(billType);
     }
 
-    @GetMapping("/total/{month}/{year}")
-    public EntityResponse<TotalBillResponse> getTotalBillsByMonthYear(@PathVariable int month, @PathVariable int year) {
+    @GetMapping("/total")
+    public EntityResponse<TotalBillResponse> getTotalBillsByMonthYear(
+            @RequestParam(value = "month", required = false, defaultValue = "0") int month,
+            @RequestParam(value = "year", required = false, defaultValue = "0") int year
+    ) {
+        if (month == 0) month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        if (year == 0) year = Calendar.getInstance().get(Calendar.YEAR);
+
         return new EntityResponse<>(billService.getTotalBillByMonthYear(month, year));
     }
 
