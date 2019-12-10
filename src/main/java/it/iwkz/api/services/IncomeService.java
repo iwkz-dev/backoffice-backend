@@ -5,6 +5,7 @@ import it.iwkz.api.models.IncomeType;
 import it.iwkz.api.models.Income;
 import it.iwkz.api.payloads.ListResponse;
 import it.iwkz.api.payloads.income.AddIncomeRequest;
+import it.iwkz.api.payloads.income.AddIncomeTypeRequest;
 import it.iwkz.api.payloads.income.TotalIncomeResponse;
 import it.iwkz.api.repositories.IncomeTypeRepository;
 import it.iwkz.api.repositories.IncomesRepository;
@@ -39,9 +40,9 @@ public class IncomeService extends AbstractService{
         Income income = new Income();
         income.setAmount(incomeRequest.getAmount());
         income.setIncomeType(incomeType);
-        income.setMonth(incomeRequest.getMonth());
-        income.setYear(incomeRequest.getYear());
         income.setInfo(Optional.of(incomeRequest).map(AddIncomeRequest::getInfo).orElse(""));
+        income.setMonth(Optional.of(incomeRequest).map(AddIncomeRequest::getMonth).orElse(AppConst.CURRENT_MONTH));
+        income.setYear(Optional.of(incomeRequest).map(AddIncomeRequest::getYear).orElse(AppConst.CURRENT_YEAR));
 
         return incomesRepository.save(income);
     }
@@ -90,5 +91,48 @@ public class IncomeService extends AbstractService{
         response.setTotalIncomeByTypes(incomeByTypes);
 
         return response;
+    }
+
+    @Transactional
+    public Income updateIncome(long incomeId, AddIncomeRequest incomeRequest) {
+        Income income = incomesRepository.findById(incomeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Income", "incomeId", incomeId));
+
+        IncomeType incomeType = incomeTypeRepository.findById(incomeRequest.getIncomeTypeId())
+                .orElseThrow(() -> new ResourceNotFoundException("IncomeType", "incomeTypeId", incomeRequest.getIncomeTypeId()));
+
+        income.setAmount(incomeRequest.getAmount());
+        income.setInfo(incomeRequest.getInfo());
+        income.setIncomeType(incomeType);
+
+        return incomesRepository.save(income);
+    }
+
+    @Transactional
+    public void deleteIncome(long incomeId) {
+        Income income = incomesRepository.findById(incomeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Income", "incomeId", incomeId));
+
+        incomesRepository.delete(income);
+    }
+
+    @Transactional
+    public IncomeType updateIncomeType(long incomeTypeId, AddIncomeTypeRequest incomeTypeRequest) {
+        IncomeType incomeType = incomeTypeRepository.findById(incomeTypeId)
+                .orElseThrow(() -> new ResourceNotFoundException("IncomeType", "incomeTypeId", incomeTypeId));
+
+        incomeType.setName(incomeTypeRequest.getName());
+        incomeType.setDescription(incomeTypeRequest.getDescription());
+
+        return incomeTypeRepository.save(incomeType);
+    }
+
+    @Transactional
+    public IncomeType addIncomeType(AddIncomeTypeRequest incomeTypeRequest) {
+        IncomeType incomeType = new IncomeType();
+        incomeType.setName(incomeTypeRequest.getName());
+        incomeType.setDescription(incomeTypeRequest.getDescription());
+
+        return incomeTypeRepository.save(incomeType);
     }
 }
