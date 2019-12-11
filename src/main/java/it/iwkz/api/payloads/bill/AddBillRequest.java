@@ -12,10 +12,8 @@ public class AddBillRequest {
     @NotNull
     private Double amount;
 
-    @NotNull
     private Integer month;
 
-    @NotNull
     private Integer year;
 
     private String info;
