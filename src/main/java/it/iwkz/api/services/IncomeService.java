@@ -4,8 +4,10 @@ import it.iwkz.api.exceptions.ResourceNotFoundException;
 import it.iwkz.api.models.IncomeType;
 import it.iwkz.api.models.Income;
 import it.iwkz.api.payloads.ListResponse;
+import it.iwkz.api.payloads.bill.TotalBillResponse;
 import it.iwkz.api.payloads.income.AddIncomeRequest;
 import it.iwkz.api.payloads.income.AddIncomeTypeRequest;
+import it.iwkz.api.payloads.income.IncomePercentageResponse;
 import it.iwkz.api.payloads.income.TotalIncomeResponse;
 import it.iwkz.api.repositories.IncomeTypeRepository;
 import it.iwkz.api.repositories.IncomesRepository;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -29,6 +32,9 @@ public class IncomeService extends AbstractService{
 
     @Autowired
     private IncomeTypeRepository incomeTypeRepository;
+
+    @Autowired
+    private BillService billService;
 
     private static final Logger logger = LoggerFactory.getLogger(IncomeService.class);
 
@@ -87,7 +93,7 @@ public class IncomeService extends AbstractService{
         TotalIncomeResponse response = new TotalIncomeResponse();
         response.setMonth(month);
         response.setYear(year);
-        response.setTotalIncomes(totalIncomes);
+        response.setTotalIncomes(roundingValue(totalIncomes));
         response.setTotalIncomeByTypes(incomeByTypes);
 
         return response;
@@ -134,5 +140,22 @@ public class IncomeService extends AbstractService{
         incomeType.setDescription(incomeTypeRequest.getDescription());
 
         return incomeTypeRepository.save(incomeType);
+    }
+
+    public IncomePercentageResponse calculateIncomePercentage(int month, int year) {
+        TotalIncomeResponse incomeResponse = getTotalIncomes(month, year);
+        TotalBillResponse billResponse = billService.getTotalBillByMonthYear(month, year);
+
+        double totalIncomeAmount = incomeResponse.getTotalIncomes();
+        double totalBillAmount = billResponse.getTotalBills();
+
+        double percentage = (totalIncomeAmount * 100.0d) / totalBillAmount;
+
+        IncomePercentageResponse response = new IncomePercentageResponse();
+        response.setTotalBill(totalBillAmount);
+        response.setTotalIncome(totalIncomeAmount);
+        response.setIncomePercentage(percentage > 100 ? 100 : roundingValue(percentage));
+
+        return response;
     }
 }
