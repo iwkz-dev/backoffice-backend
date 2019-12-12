@@ -86,7 +86,7 @@ public class BillService extends AbstractService{
         TotalBillResponse response = new TotalBillResponse();
         response.setMonth(month);
         response.setYear(year);
-        response.setTotalBills(totalBills);
+        response.setTotalBills(roundingValue(totalBills));
         response.setTotalBillByTypes(billByTypes);
 
         return response;

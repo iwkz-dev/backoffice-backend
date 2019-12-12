@@ -7,6 +7,7 @@ import it.iwkz.api.payloads.EntityResponse;
 import it.iwkz.api.payloads.ListResponse;
 import it.iwkz.api.payloads.income.AddIncomeRequest;
 import it.iwkz.api.payloads.income.AddIncomeTypeRequest;
+import it.iwkz.api.payloads.income.IncomePercentageResponse;
 import it.iwkz.api.payloads.income.TotalIncomeResponse;
 import it.iwkz.api.repositories.IncomeTypeRepository;
 import it.iwkz.api.repositories.IncomesRepository;
@@ -85,6 +86,17 @@ public class IncomeController {
         if (year == 0) year = AppConst.CURRENT_YEAR;
 
         return new EntityResponse<>(incomeService.getTotalIncomes(month, year));
+    }
+
+    @GetMapping("/total-percentage")
+    public EntityResponse<IncomePercentageResponse> getTotalWithPercentageByMonthYear(
+            @RequestParam(value = "month", required = false, defaultValue = "0") int month,
+            @RequestParam(value = "year", required = false, defaultValue = "0") int year
+    ) {
+        if (month == 0) month = AppConst.CURRENT_MONTH;
+        if (year == 0) year = AppConst.CURRENT_YEAR;
+
+        return new EntityResponse<>(incomeService.calculateIncomePercentage(month, year));
     }
 
     @PostMapping
