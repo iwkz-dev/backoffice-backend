@@ -74,13 +74,13 @@ public class BillService extends AbstractService{
         for(Bill bill : bills) {
             String type = bill.getBillType().getName();
             double amount = bill.getAmount();
+            totalBills += amount;
 
             if (billByTypes.containsKey(type)) {
                 amount += billByTypes.get(type);
             }
 
             billByTypes.put(type, amount);
-            totalBills += amount;
         }
 
         TotalBillResponse response = new TotalBillResponse();
