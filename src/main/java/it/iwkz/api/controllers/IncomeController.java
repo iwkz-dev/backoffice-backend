@@ -11,7 +11,6 @@ import it.iwkz.api.payloads.income.IncomePercentageResponse;
 import it.iwkz.api.payloads.income.TotalIncomeResponse;
 import it.iwkz.api.repositories.IncomeTypeRepository;
 import it.iwkz.api.repositories.IncomesRepository;
-import it.iwkz.api.services.IncomeService;
 import it.iwkz.api.utils.AppConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +23,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/income")
-public class IncomeController {
+public class IncomeController extends AbstractController{
     @Autowired
     private IncomeTypeRepository incomeTypeRepository;
 
     @Autowired
     private IncomesRepository incomesRepository;
-
-    @Autowired
-    private IncomeService incomeService;
 
     private static final Logger logger = LoggerFactory.getLogger(IncomeController.class);
 
@@ -103,6 +99,7 @@ public class IncomeController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addIncome(@Valid @RequestBody AddIncomeRequest incomeRequest) {
         incomeService.addIncome(incomeRequest);
+        sendFinanceDataToClient();
     }
 
     @PutMapping("/{id}")
@@ -112,11 +109,13 @@ public class IncomeController {
             @Valid @RequestBody AddIncomeRequest incomeRequest
     ) {
         incomeService.updateIncome(id, incomeRequest);
+        sendFinanceDataToClient();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteIncome(@PathVariable long id) {
         incomeService.deleteIncome(id);
+        sendFinanceDataToClient();
     }
 }
