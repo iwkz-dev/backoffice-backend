@@ -22,7 +22,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DecimalFormat;
 import java.util.*;
 
 @Service
@@ -76,18 +75,18 @@ public class IncomeService extends AbstractService{
         Page<Income> incomes = incomesRepository.findByMonthYear(month, year, pageable);
 
         HashMap<String, Double> incomeByTypes = new HashMap<>();
-        double totalIncomes = 0d;
+        double totalIncomes = 0.0;
 
         for(Income income : incomes) {
             String type = income.getIncomeType().getName();
             double amount = income.getAmount();
+            totalIncomes += amount;
 
             if (incomeByTypes.containsKey(type)) {
                 amount += incomeByTypes.get(type);
             }
 
             incomeByTypes.put(type, amount);
-            totalIncomes += amount;
         }
 
         TotalIncomeResponse response = new TotalIncomeResponse();
