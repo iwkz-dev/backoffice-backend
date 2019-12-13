@@ -9,7 +9,6 @@ import it.iwkz.api.payloads.bill.AddBillRequest;
 import it.iwkz.api.payloads.bill.AddBillTypeRequest;
 import it.iwkz.api.payloads.bill.TotalBillResponse;
 import it.iwkz.api.repositories.BillTypeRepository;
-import it.iwkz.api.services.BillService;
 import it.iwkz.api.utils.AppConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +19,9 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/bill")
-public class BillController {
+public class BillController extends AbstractController{
     @Autowired
     private BillTypeRepository billTypeRepository;
-
-    @Autowired
-    private BillService billService;
 
     @GetMapping("/types")
     public ListResponse<BillType> getBillTypes() {
@@ -82,6 +78,7 @@ public class BillController {
     @ResponseStatus(HttpStatus.CREATED)
     public void addBill(@Valid @RequestBody AddBillRequest billRequest) {
         billService.addBill(billRequest);
+        sendFinanceDataToClient();
     }
 
     @PutMapping("/{id}")
@@ -91,11 +88,13 @@ public class BillController {
             @Valid @RequestBody AddBillRequest billRequest
     ) {
         billService.updateBill(id, billRequest);
+        sendFinanceDataToClient();
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteBill(@PathVariable long id) {
         billService.deleteBill(id);
+        sendFinanceDataToClient();
     }
 }
