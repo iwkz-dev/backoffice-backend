@@ -1,0 +1,221 @@
+[33mcommit feea2e63d78ae7731c8bdaa7580ff698b48a9efe[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: apsmono <arifekop@ymail.com>
+Date:   Sun Feb 9 15:04:50 2020 +0100
+
+    add api phyton connection
+
+[33mcommit 2f14556be7856788b5ec211732589ba5ff5eb53a[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 3172ced 95e9622
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Fri Dec 27 14:20:30 2019 +0000
+
+    Merge branch 'Copy-Default-Data' into 'master'
+    
+    Copy default data
+    
+    See merge request IWKZ/api-iwkz!7
+
+[33mcommit 95e962250f09f3d3cb4648b49aa131059c24251f[m
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Fri Dec 27 14:20:30 2019 +0000
+
+    Copy default data
+
+[33mcommit 3172cedc8bdd9b13dfd3ca53f33398d46c799a9b[m
+Merge: 07e8e89 9e42743
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Fri Dec 13 14:00:19 2019 +0000
+
+    Merge branch 'test' into 'master'
+    
+    Test
+    
+    See merge request IWKZ/api-iwkz!6
+
+[33mcommit 9e4274377d214260d1bb491bfc8fb06e27fb4c0a[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Fri Dec 13 14:55:33 2019 +0100
+
+    minor fix total income & bill
+
+[33mcommit c3e633b4f11de3069f69f3b70945a6205a0eeecf[m
+Merge: 5ebfedd 07e8e89
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Fri Dec 13 14:54:22 2019 +0100
+
+    Merge branch 'master' of https://gitlab.com/IWKZ/api-iwkz
+
+[33mcommit 07e8e89fd4d9cdbdcc2e8b14a19fbee245a0c6f9[m
+Merge: da60426 904d7c2
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Fri Dec 13 12:39:08 2019 +0000
+
+    Merge branch 'ws-impelemntation' into 'master'
+    
+    finishing websocket implementation
+    
+    See merge request IWKZ/api-iwkz!5
+
+[33mcommit 904d7c254a4767f405e4e1113fa135a46f5483cc[m
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Fri Dec 13 12:39:07 2019 +0000
+
+    finishing websocket implementation
+
+[33mcommit 5ebfedd3977b72efe74dd29f8953cd1546f6f345[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Fri Dec 13 13:31:36 2019 +0100
+
+    refactoring bill & income set month and year as request params
+
+[33mcommit da60426bf857a9b1038eecd59db905dec1c4359a[m
+Merge: d8e9194 b7db7e2
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Thu Dec 12 16:04:00 2019 +0000
+
+    Merge branch 'webhooks' into 'master'
+    
+    add income total with percentage endpoint
+    
+    See merge request IWKZ/api-iwkz!4
+
+[33mcommit b7db7e209520c0b1e0fa97c0044d685dbede2883[m
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Thu Dec 12 16:04:00 2019 +0000
+
+    add income total with percentage endpoint
+
+[33mcommit d8e91946b8e8986abcff9954b645e28edc8e9114[m
+Merge: e50c21b 5995f16
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Wed Dec 11 14:55:51 2019 +0000
+
+    Merge branch 'finance' into 'master'
+    
+    add basic crud for bill and bill type endpoint
+    
+    See merge request IWKZ/api-iwkz!3
+
+[33mcommit 5995f16feeba9ee9f4212e75dce8b47515a3c929[m
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Wed Dec 11 14:55:50 2019 +0000
+
+    add basic crud for bill and bill type endpoint
+
+[33mcommit e50c21b41e92c21c58819c94a0dfbf60f6dd23cf[m
+Merge: 9774b90 9917785
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Tue Dec 10 13:56:10 2019 +0000
+
+    Merge branch 'finance' into 'master'
+    
+    add more controller for income and income type
+    
+    See merge request IWKZ/api-iwkz!2
+
+[33mcommit 9917785360e4c7d73efbead4c7144d5c6425f7b9[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Tue Dec 10 14:52:50 2019 +0100
+
+    add more controller for income and income type
+
+[33mcommit 9774b908a259ddf04aa40b982a6b8d15c1be50a7[m
+Merge: 430d3fb 26435cb
+Author: Muhammad Juan Akbar <mja.0812@gmail.com>
+Date:   Fri Dec 6 13:34:26 2019 +0000
+
+    Merge branch 'finance' into 'master'
+    
+    refactoring bill & income set month and year as request params
+    
+    See merge request IWKZ/api-iwkz!1
+
+[33mcommit 26435cbe3ae2e4aba947feb167e5e77e15f0c5dd[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Fri Dec 6 14:33:46 2019 +0100
+
+    refactoring bill & income set month and year as request params
+
+[33mcommit 430d3fb557a13740c5aa145dc0873244fbc2d486[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Thu Dec 5 13:39:38 2019 +0100
+
+    refactoring response, add standard response for error, entity and list. add some swagger information
+
+[33mcommit 68fa4076cd62b1a132413f3591fd0abdaece9010[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Thu Dec 5 09:29:44 2019 +0100
+
+    enable cors
+
+[33mcommit f3760128a459664215579638f8c5f2776cab8c04[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Wed Dec 4 14:02:48 2019 +0100
+
+    add gitlab ci & cd config
+
+[33mcommit 8a2053424225a89a198c7d81f58049cd8029a76e[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Wed Dec 4 13:57:14 2019 +0100
+
+    minor fix audit date
+
+[33mcommit 7e6b27ae277df56b915bf79c6f6798d9f3e1d124[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Mon Dec 2 16:04:43 2019 +0100
+
+    restrict only admin role can create a new user
+
+[33mcommit 5cde24caba4371801996a2b2fe17c5d31fac6398[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Mon Dec 2 16:04:23 2019 +0100
+
+    clean up move audit date to separate object
+
+[33mcommit 40a31e4c0d5010b9e3129e17f819e5c8dfaff92b[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Mon Dec 2 15:47:00 2019 +0100
+
+    add bill request controller (get types, type by id, bill by month and year)
+
+[33mcommit 9001608487c2232380ca0ce4cffce122ff832124[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Mon Dec 2 15:11:58 2019 +0100
+
+    add income request controller (get types, type by id, income by month and year)
+
+[33mcommit a69f13b17cc776ef987c59b6d803c6cc2c3e95a1[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Mon Dec 2 15:09:59 2019 +0100
+
+    add more columns, add some config
+
+[33mcommit 51b7cc7645a0d3c969e66ec9598e3db6016b4f10[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Thu Nov 28 16:37:10 2019 +0100
+
+    add swagger
+
+[33mcommit b910787fac0b454998926911f58e0b618f70ee5e[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Thu Nov 28 16:17:11 2019 +0100
+
+    add user and finance controller, minor fix
+
+[33mcommit 520a9ebb7c829b59a9f7ff7285dd4abc54586dbf[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Thu Nov 28 15:27:02 2019 +0100
+
+    add auth controller, handler register and login
+
+[33mcommit 94d9e4744c9f413f94c946fda4e3e248f11ee3a4[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Thu Nov 28 13:09:14 2019 +0100
+
+    add jwt security configurations
+
+[33mcommit 9e56e4812520fd643d17549da2327ee5ee96e462[m
+Author: Muhammad Juan Akbar <juan.akbar@heavenhr.de>
+Date:   Thu Nov 28 10:04:18 2019 +0100
+
+    add spring boot project
